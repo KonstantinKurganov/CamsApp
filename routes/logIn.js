@@ -12,7 +12,8 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
     console.log("Username: " + req.body.username);
-    res.redirect('/index')
+    console.log("Password: " + req.body.password);
+    res.redirect('/?valid=true');
 });
 
 module.exports = router;
