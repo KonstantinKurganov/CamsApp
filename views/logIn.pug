@@ -3,3 +3,19 @@ extends layout
 block content
     h1 Welcome to the Security Cams App
     p Please, log in:
+
+    div: form(method='post', class='form-vertical')
+        if message.error
+            div.alert.alert-danger Missing username or password
+
+
+        div.form-group
+            label Username:
+            input.form-control(name='username',  autofocus)
+
+        div.form-group
+            label Password:
+            input.form-control(name='password', type='password')
+
+        div.form-actions
+            input.btn.btn-primary(type='submit', value='Login')
