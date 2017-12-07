@@ -1,16 +1,20 @@
 var express = require('express');
+var hashService = require('../services/hash-service');
 var router = express.Router();
+const  mysql = require('mysql');
+const db =  require("../data_access/db-config.js");
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   //perform auth check
-  if ( req.query.valid === 'true'){
-      res.render('index', { title: 'My Simple Cams' , hash: 'c873dfb4e254e212fa78bac2d966b831'});
-  }
-  else{
-    res.redirect('/logIn')
-  }
-});
+    if ( req.query.auth === "" || typeof  req.query.auth === 'undefined' ){
+        res.redirect('/logIn');
+    }
+    else{
+        res.render('index', { title: 'My Simple Cams' , hash: req.query.auth});
+    }
+  });
 
 
 
