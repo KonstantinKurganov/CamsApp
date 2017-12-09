@@ -1,15 +1,12 @@
 var request = require('request');
 
-var querystring = require('querystring');
-
-
 
 //request post request
 request({
         url: 'http://195.133.1.227/zm/index.php/',
         method: 'POST',
         qs:{
-            'auth':'f95a1202c6438b485c976a2e7a2d8071',
+            'auth':'ceb63cb67f8a9b802f60622d24e9b662',
             'action': 'login',
             'view' : 'console'
         },

@@ -1,8 +1,8 @@
 var express = require('express');
-var hashService = require('../services/hash-service');
+var apiService = require('../services/api-service');
 var router = express.Router();
 const  mysql = require('mysql');
-const db =  require("../data_access/db-config.js");
+
 
 
 /* GET home page. */
@@ -12,7 +12,22 @@ router.get('/', function(req, res, next) {
         res.redirect('/logIn');
     }
     else{
-        res.render('index', { title: 'My Simple Cams' , hash: req.query.auth});
+        let auth = req.query.auth;
+        apiService.getAllEvents(auth)
+            .then(function (resJson){
+
+                var obj =  JSON.parse(resJson);
+                console.log(obj['events'][0].Event.Name);
+                for (var event in obj)
+                {
+                    console.log(event.Id);
+                }
+
+
+                res.render('index', { title: 'My Simple Cams' , hash: auth, data: JSON.parse(resJson) });
+            });
+
+
     }
   });
 
