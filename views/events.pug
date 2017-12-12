@@ -1,0 +1,25 @@
+//Created by Костя on 12/12/2017.
+
+block content
+    h1= title
+    p Вы вошли как: #{username}
+        a(href="/logout")
+            button(type="button") Выход
+    table
+        tr
+            td Название
+            td Причина
+            td Начало
+            td Продолжительность
+            td Видеозапись
+        for event in data.events
+            tr
+                td=event.Event.Name
+                td=event.Event.Cause
+                td=event.Event.StartTime
+                td=event.Event.Length
+                td
+                    a(href=event.Event.diskUrl)
+                        button(type="button") Просмотр
+
+

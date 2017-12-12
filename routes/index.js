@@ -7,13 +7,8 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', auth,function(req, res, next) {
-
-    let auth = req.session.authHash;
-    apiService.getAllEvents(auth)
-        .then(function (resJson){
-            res.render('index', { title: 'My Simple Cams' , hash: auth, data: JSON.parse(resJson) });
-        });
-  });
+    res.render('index', { title: 'Система видеонаблюдения' , username: req.session.username });
+});
 
 
 

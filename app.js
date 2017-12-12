@@ -7,10 +7,13 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
 
+
+var cameras = require('./routes/cameras');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var login = require('./routes/login');
 var logout = require('./routes/logout');
+var events = require('./routes/events');
 
 var app = express();
 
@@ -40,6 +43,10 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/logIn', login);
 app.use('/logout', logout);
+app.use('/cameras', cameras);
+app.use('/events', events);
+
+
 
 
 

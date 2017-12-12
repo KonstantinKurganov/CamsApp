@@ -1,0 +1,26 @@
+//
+   Created by Костя on 12/12/2017.
+block content
+    h1= title
+    p Вы вошли как: #{username}
+        a(href="/logout")
+            button(type="button") Выход
+
+
+
+    table
+        tr
+            td Название
+            td Тип
+            td Изображение
+
+        for monitor in data.monitors
+            tr
+                td=monitor.Monitor.Name
+                td=monitor.Monitor.Function
+                td
+                    a(href="/cameras/" + monitor.Monitor.Id)
+                        button(type="button") Просмотр
+
+    a(href="/cameras/montage")
+        button(type="button") Просмотр всех камер

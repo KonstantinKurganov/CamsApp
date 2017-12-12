@@ -1,0 +1,6 @@
+//Created by Костя on 12/12/2017.
+
+for monitor in data.monitors
+    tr
+        td
+            img.camVideo#Monitor1(src=`http://195.133.1.227/zm/cgi-bin/nph-zms?mode=jpeg&monitor=${monitor.Monitor.Id}&scale=50&maxfps=20&auth=`+ hash alt=monitor.Monitor.Name)

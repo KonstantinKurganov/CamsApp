@@ -3,7 +3,7 @@
  */
 var request = require('request');
 
-function getAllEvents (hash) {
+function sendApiReq(reqUrl,hash){
     return new Promise(function(resolve, reject) {
 
         //request post request
@@ -32,7 +32,7 @@ function getAllEvents (hash) {
                 console.log(firstCookie);
                 //requesting data
                 request({
-                        url: 'http://195.133.1.227/zm/api/events.json',
+                        url: reqUrl,
                         method: "GET",
                         headers: {
                             'Cookie': firstCookie
@@ -47,4 +47,15 @@ function getAllEvents (hash) {
     });
 }
 
+
+function getAllMonitors (hash) {
+   return sendApiReq("http://195.133.1.227/zm/api/monitors.json",hash)
+}
+function getAllEvents (hash) {
+    return sendApiReq("http://195.133.1.227/zm/api/events.json",hash)
+}
+
+
+
+module.exports.getAllMonitors = getAllMonitors;
 module.exports.getAllEvents = getAllEvents;

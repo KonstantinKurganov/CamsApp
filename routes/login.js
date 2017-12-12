@@ -13,7 +13,7 @@ var request = require('request');
 
 /* GET logIn page. */
 router.get('/', function(req, res, next) {
-    res.render('login', {title: "Security Cams App" });
+    res.render('login', {title: "Система видеонаблюдения" });
 });
 
 router.post('/',function(req, res, next) {
@@ -22,19 +22,19 @@ router.post('/',function(req, res, next) {
     let pass = req.body.password;
     let authHash ="";
 
-    console.log("Username: " + username + " Password: " + pass );
 
     hashService.checkUser(username,pass)
         .then( function (passHash){
             authHash = hashService.calcHash(passHash,username);
-            console.log("Received hash is:", authHash);
 
             req.session.authHash = authHash;
+            req.session.username = username;
+
             res.redirect('/');
         })
         .catch( function (error){
             console.log(error);
-            res.render('login', { title: 'Security Cams App', errors: [error]});
+            res.render('login', { title: 'Система видеонаблюдения', errors: [error]});
 
 
         });

@@ -2,24 +2,11 @@ extends layout
 
 block content
   h1= title
-  p Online
+  p Вы вошли как: #{username}
     a(href="/logout")
-      button(type="button") logout
+      button(type="button") Выход
 
-  img.camVideo#Monitor1(src="http://195.133.1.227/zm/cgi-bin/nph-zms?mode=jpeg&monitor=1&scale=50&maxfps=20&auth="+ hash alt="Monitor-1")
-  p Events:
-  table
-    tr
-      td Name
-      td Cause
-      td Start Time
-      td Ya-disk link
-    for event in data.events
-      tr
-        td=event.Event.Name
-        td=event.Event.Cause
-        td=event.Event.StartTime
-        td
-          a(href=event.Event.diskUrl) Link
-
-
+  a(href="/cameras")
+    button(type="button") Камеры
+  a(href="/events")
+    button(type="button") События
