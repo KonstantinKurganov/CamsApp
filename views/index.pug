@@ -11,8 +11,13 @@ block content
       td Name
       td Cause
       td Start Time
+      td Ya-disk link
     for event in data.events
       tr
         td=event.Event.Name
         td=event.Event.Cause
         td=event.Event.StartTime
+        td
+          a(href=event.Event.diskUrl) Link
+
+

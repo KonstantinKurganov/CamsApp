@@ -21,17 +21,13 @@ router.post('/', function(req, res, next) {
     let pass = req.body.password;
     let authHash ="";
 
-    console.log("Username: " + username + "Password: " + pass );
+    console.log("Username: " + username + " Password: " + pass );
 
-    hashService.getHash(username)
+    hashService.checkUser(username,pass)
         .then( function (passHash){
             authHash = hashService.calcHash(passHash,username);
             console.log("Received hash is:", authHash);
             res.redirect('/?auth=' + authHash);
-
-
-
-
         })
         .catch( function (error){
             console.log(error);

@@ -1,41 +1,18 @@
 var request = require('request');
 
-
-//request post request
 request({
-        url: 'http://195.133.1.227/zm/index.php/',
-        method: 'POST',
-        qs:{
-            'auth':'ceb63cb67f8a9b802f60622d24e9b662',
-            'action': 'login',
-            'view' : 'console'
-        },
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+        url: 'https://yadi.sk/d/41_PtRZU3QYRWU',
+        method: "GET",
 
-        }},
-    function(err, res) {
-        if(err){
-            console.log("it did not work: " + err)
-        }
+    },function(err,response){
 
-        console.log(res.statusCode);//logs as 201 sucess
-        console.log("heres the cookie: "+res.headers['set-cookie']); //returns cookie in correct format
-        var cookie = res.headers['set-cookie'].toString();
-        var firstCookie = cookie.split(';')[0];
-        console.log(firstCookie);
-        //requesting data
-        request({
-                url: 'http://195.133.1.227/zm/api/events.json',
-                method: "GET",
-                headers: {
-                    'Cookie':firstCookie
-                }
-            },function(err,response){
-                console.log(response.body) // one of the headers says user is not authorised
+        var str = response.toString();
+        var from = str.search('<div class="video-player__container"');
+        var to =str.search('</iframe></div>');
 
-            }
-        )
+        var newstr = str.substring(from,to);
+        console.log(from,to,newstr);
 
-    });
+    }
+)
 

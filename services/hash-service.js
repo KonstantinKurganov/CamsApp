@@ -2,36 +2,52 @@
  * Created by Костя on 12/7/2017.
  */
 const db =  require("../data_access/db-config.js");
+const sql =  require("../data_access/sql-strings");
 const mysql = require('mysql');
 const md5 = require('js-md5');
 
 
-function getHash(username)
+function handleSql( sqlReq)
 {
     return new Promise(function(resolve, reject) {
         // The Promise constructor should catch any errors thrown on
         // this tick. Alternately, try/catch and reject(err) on catch.
         var connection = mysql.createConnection(db);
-        var query_str =
-            "Select password " +
-            "from Users " +
-            "Where (username = ?);";
-        var query_var = [username];
-        connection.query(query_str,query_var, function (err, rows, fields) {
+
+        connection.query(sqlReq, function (err, rows, fields) {
             // Call reject on error states,
             // call resolve with results
             if (err) {
                 return reject(err);
             }
             if (rows.length === 0){
-                return reject( new Error("No such user in db!"));
+                return reject( new Error("Empty response"));
             }
             else {
-                resolve(rows[0].password);
+                resolve(rows);
             }
 
         });
     });
+}
+
+function checkUser(username,password){
+
+    return handleSql(sql.getPassHash(password))
+        .then( function (sqlResult){
+            return  handleSql(sql.selectUserByPassHash(sqlResult[0][`PASSWORD('${password}')`]))
+                   .then(
+                       function(rows){
+                           if(rows[0].username === username)
+                               return rows[0].password;
+                           else
+                               throw(new Error("Credentials are invalid"))
+                       }
+                   )
+        })
+        .catch(function (error){
+            console.log(error);
+        })
 }
 
 
@@ -44,5 +60,5 @@ function calcHash(passHash,login){
 }
 
 
-module.exports.getHash = getHash;
+module.exports.checkUser = checkUser;
 module.exports.calcHash = calcHash;
