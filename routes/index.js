@@ -1,34 +1,18 @@
 var express = require('express');
 var apiService = require('../services/api-service');
+var auth = require('../services/session-service');
 var router = express.Router();
-const  mysql = require('mysql');
 
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  //perform auth check
-    if ( req.query.auth === "" || typeof  req.query.auth === 'undefined' ){
-        res.redirect('/logIn');
-    }
-    else{
-        let auth = req.query.auth;
-        apiService.getAllEvents(auth)
-            .then(function (resJson){
+router.get('/', auth,function(req, res, next) {
 
-                var obj =  JSON.parse(resJson);
-                console.log(obj['events'][0].Event.Name);
-                for (var event in obj)
-                {
-                    console.log(event.Id);
-                }
-
-
-                res.render('index', { title: 'My Simple Cams' , hash: auth, data: JSON.parse(resJson) });
-            });
-
-
-    }
+    let auth = req.session.authHash;
+    apiService.getAllEvents(auth)
+        .then(function (resJson){
+            res.render('index', { title: 'My Simple Cams' , hash: auth, data: JSON.parse(resJson) });
+        });
   });
 
 

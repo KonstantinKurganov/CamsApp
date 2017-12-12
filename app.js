@@ -1,4 +1,5 @@
 var express = require('express');
+var session = require('cookie-session');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -8,9 +9,19 @@ var expressValidator = require('express-validator');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-var logIn = require('./routes/logIn');
+var login = require('./routes/login');
+var logout = require('./routes/logout');
 
 var app = express();
+
+
+app.use(session({
+    name: 'session',
+    keys: ['key1'],
+    // Cookie Options
+    maxAge: 2 * 60 * 60 * 1000 // 2 hours
+}));
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,7 +38,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
-app.use('/logIn', logIn);
+app.use('/logIn', login);
+app.use('/logout', logout);
 
 
 

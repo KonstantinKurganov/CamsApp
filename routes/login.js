@@ -10,12 +10,13 @@ var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
 var request = require('request');
 
+
 /* GET logIn page. */
 router.get('/', function(req, res, next) {
-    res.render('logIn', {title: "Security Cams App" });
+    res.render('login', {title: "Security Cams App" });
 });
 
-router.post('/', function(req, res, next) {
+router.post('/',function(req, res, next) {
 
     let username = req.body.username;
     let pass = req.body.password;
@@ -27,11 +28,13 @@ router.post('/', function(req, res, next) {
         .then( function (passHash){
             authHash = hashService.calcHash(passHash,username);
             console.log("Received hash is:", authHash);
-            res.redirect('/?auth=' + authHash);
+
+            req.session.authHash = authHash;
+            res.redirect('/');
         })
         .catch( function (error){
             console.log(error);
-            res.render('logIn', { title: 'Security Cams App', errors: [error]});
+            res.render('login', { title: 'Security Cams App', errors: [error]});
 
 
         });

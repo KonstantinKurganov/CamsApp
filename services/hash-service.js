@@ -32,7 +32,6 @@ function handleSql( sqlReq)
 }
 
 function checkUser(username,password){
-
     return handleSql(sql.getPassHash(password))
         .then( function (sqlResult){
             return  handleSql(sql.selectUserByPassHash(sqlResult[0][`PASSWORD('${password}')`]))
@@ -41,15 +40,14 @@ function checkUser(username,password){
                            if(rows[0].username === username)
                                return rows[0].password;
                            else
-                               throw(new Error("Credentials are invalid"))
+                               throw (new Error("Credentials are invalid")) ;
                        }
                    )
         })
         .catch(function (error){
-            console.log(error);
+            throw (new Error("Credentials are invalid")) ;
         })
 }
-
 
 function calcHash(passHash,login){
         let d = new Date;
