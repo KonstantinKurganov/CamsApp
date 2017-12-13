@@ -1,22 +1,37 @@
-extends layout
-block content
-    h1= title
-    p Вы вошли как: #{username}
-        a(href="/logout")
-            button(type="button") Выход
-    table
-        tr
-            td Название
-            td Тип
-            td Изображение
+extends ../public/pugcomponents/_bootstrap
 
-        for monitor in data.monitors
-            tr
-                td=monitor.Monitor.Name
-                td=monitor.Monitor.Function
-                td
-                    a(href="/cameras/" + monitor.Monitor.Id)
-                        button(type="button") Просмотр
+append styles
+    link(rel='stylesheet', href='/css/bootstrap-switch.css')
 
-    a(href="/cameras/montage")
-        button(type="button") Просмотр всех камер
+block body
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+    script(src='/js/bootstrap-switch.js')
+    .container
+        h1= title
+        p Вы вошли как: #{username}
+            a(href="/logout")
+                button(type="button") Выход
+
+        table-responsive
+            table.table.table-striped
+                thead
+                    tr
+                        td Название
+                        td Тип
+                        td Изображение
+                        td Распознавание
+                tbody
+                    for monitor in data.monitors
+                        tr
+                            td=monitor.Monitor.Name
+                            td=monitor.Monitor.Function
+                            td
+                                a(href="/cameras/" + monitor.Monitor.Id)
+                                    button(type="button") Просмотр
+                            td
+                                input(type='checkbox', name="my-checkbox")
+        a(href="/cameras/montage")
+            button(type="button") Просмотр всех камер
+
+    script.
+        $("[name='my-checkbox']").bootstrapSwitch();

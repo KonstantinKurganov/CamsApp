@@ -1,0 +1,64 @@
+//- bootstrap.jade
+//- bootstrap mixins
+
+
+//- Including Icon mixins
+include icons
+//- Including Alert mixins
+include alerts
+//- Including Tooltip mixins
+include tooltips
+//- Including Accordion mixins
+include accordion
+//- Including Carousel mixins
+include carousel
+//- Including Table mixins
+include tables
+//- Including Navbar mixins
+include navbar
+//- Including Toggle Button mixins
+include toggle
+//- Including Nav mixins
+include navs
+//- Including Label mixins
+include labels
+//- Including Panel mixins
+include panels
+//- Including Tab mixins
+include tabs
+//- Including Dropdown mixins
+include dropdowns
+//- Including Form control mixins
+include forms
+//- Including Modal dialog mixins
+include modal
+//- Including List group mixins
+include list-groups
+//- Including Progress bar mixins
+include progress-bars
+//- Including Button mixins
+include buttons
+//- Including Image mixins
+include images
+//- Including Bootswatch theme mixins
+include bootswatch
+
+doctype html
+html(lang="en")
+	head
+		block head
+			meta(charset="UTF-8")
+			meta(http-equiv="X-UA-Compatible", content="IE=edge")
+			meta(name="viewport",content="width=device-width, initial-scale=1")
+			meta(name="description",content="")
+			meta(name="author",content="")
+			link(rel="icon",href="../../favicon.ico")
+			title= title
+			block styles
+				link(rel="stylesheet",href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css")
+	body(data-spy="scroll",data-target=".scrollspy")
+		block body
+			
+		block scripts
+			script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js")
+			script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js")
