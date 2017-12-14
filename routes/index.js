@@ -7,7 +7,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', auth,function(req, res, next) {
-    res.render('index', { title: 'Система видеонаблюдения' , username: req.session.username });
+    res.render('index', { title: 'Главная страница' , username: req.session.username });
 });
 
 

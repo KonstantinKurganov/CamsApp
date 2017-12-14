@@ -1,21 +1,23 @@
 extends layout
 
-block content
-    h1 Добро пожаловать в систему видеонаблюдения
-    p Пожалуйста, авторизуйтесь в системе:
 
-    div: form(method='post', class='form-vertical', id="logInForm")
-        if errors
-            ul
-                for error in errors
-                    li Ошибка входа в систему! Неверный логин или пароль.
-        div.form-group
-            label Логин:
-            input.form-control(name='username',  autofocus)
+block body
+    .container
+        h1 Добро пожаловать в систему видеонаблюдения
+        p Пожалуйста, авторизуйтесь в системе:
 
-        div.form-group
-            label Пароль:
-            input.form-control(name='password', type='password')
+        div: form(method='post', class='form-vertical', id="logInForm",style="width: 300px")
+            if errors
+                ul
+                    for error in errors
+                        li Ошибка входа в систему! Неверный логин или пароль.
+            div.form-group
+                label Логин:
+                input.form-control(name='username',  autofocus)
 
-        div.form-actions
-            input.btn.btn-primary(type='submit', value='Войти')
+            div.form-group
+                label Пароль:
+                input.form-control(name='password', type='password')
+
+            div.form-actions
+                input.btn.btn-primary(type='submit', value='Войти')

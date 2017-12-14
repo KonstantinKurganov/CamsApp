@@ -1,37 +1,38 @@
-extends ../public/pugcomponents/_bootstrap
-
+extends layout
+append scripts
+    script(src='/js/bootstrap-switch.js')
 append styles
     link(rel='stylesheet', href='/css/bootstrap-switch.css')
 
 block body
-    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
-    script(src='/js/bootstrap-switch.js')
     .container
         h1= title
-        p Вы вошли как: #{username}
-            a(href="/logout")
-                button(type="button") Выход
 
         table-responsive
             table.table.table-striped
                 thead
                     tr
                         td Название
-                        td Тип
+                        td Режим
+                        td Состояние
                         td Изображение
-                        td Распознавание
+
                 tbody
-                    for monitor in data.monitors
+                    for monitor in data
                         tr
-                            td=monitor.Monitor.Name
-                            td=monitor.Monitor.Function
+                            td=monitor.name
+                            td=monitor.function
                             td
-                                a(href="/cameras/" + monitor.Monitor.Id)
-                                    button(type="button") Просмотр
+                                input(type='checkbox', name="my-checkbox", id = monitor.id, checked  = monitor.enabled != 0)
                             td
-                                input(type='checkbox', name="my-checkbox")
+                                a(href="/cameras/" + monitor.id)
+                                    button.btn.btn-success(type="button") Просмотр
+
         a(href="/cameras/montage")
-            button(type="button") Просмотр всех камер
+            button.btn.btn-info(type="button") Просмотр всех камер
+
 
     script.
-        $("[name='my-checkbox']").bootstrapSwitch();
+        $(document).ready(function () {
+            $("[name='my-checkbox']").bootstrapSwitch();
+        });

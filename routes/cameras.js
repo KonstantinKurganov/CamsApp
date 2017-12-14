@@ -3,6 +3,7 @@
  */
 var express = require('express');
 var apiService = require('../services/api-service');
+var monitorService = require('../services/monitor-service');
 var auth = require('../services/session-service');
 var router = express.Router();
 
@@ -11,10 +12,10 @@ var router = express.Router();
 /* GET cameras page. */
 router.get('/', auth,function(req, res, next) {
     let auth = req.session.authHash;
-    apiService.getAllMonitors(auth)
-        .then(function (resJson){
-            res.render('cameras', { title: 'Список всех камер' , username: req.session.username, hash: auth, data: JSON.parse(resJson) });
-        });
+    monitorService.getAllMonitorsView(auth)
+        .then((monitors) => {
+            res.render('cameras', { title: 'Список всех камер' , username: req.session.username, hash: auth, data: monitors });
+            })
 });
 
 router.get('/:monitorId([0-9]*)/', auth,function(req, res, next) {

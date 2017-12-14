@@ -1,12 +1,11 @@
 extends layout
 
-block content
-  h1= title
-  p Вы вошли как: #{username}
-    a(href="/logout")
-      button(type="button") Выход
+block body
+  .container
+    h1= title
 
-  a(href="/cameras")
-    button(type="button") Камеры
-  a(href="/events")
-    button(type="button") События
+
+    a(href="/cameras")
+      button.btn.btn-primary(type="button") Камеры
+    a(href="/events")
+      button.btn.btn-primary(type="button") События
