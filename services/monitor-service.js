@@ -26,6 +26,14 @@ function getAllMonitorsView (hash){
             })
 }
 
+function changeMonitorState(hash,monitorId,value){
+    return apiService.changeMonitorState(hash,monitorId,value)
+        .then((result)=>{return result;}
+        ).catch(function (error){
+            throw (new Error("error while updating monitor")) ;
+        })
+}
+
 function translate (monitorState){
     switch (monitorState){
         case 'Modect':
@@ -40,3 +48,4 @@ function translate (monitorState){
 }
 
 module.exports.getAllMonitorsView = getAllMonitorsView;
+module.exports.changeMonitorState = changeMonitorState;

@@ -1,6 +1,7 @@
 extends layout
 append scripts
     script(src='/js/bootstrap-switch.js')
+    script(src='/js/bootstrap-waitingfor.js')
 append styles
     link(rel='stylesheet', href='/css/bootstrap-switch.css')
 
@@ -23,7 +24,7 @@ block body
                             td=monitor.name
                             td=monitor.function
                             td
-                                input(type='checkbox', name="my-checkbox", id = monitor.id, checked  = monitor.enabled != 0)
+                                input(type='checkbox', name="my-checkbox", id = monitor.id, checked  = monitor.enabled != 0, data-on-text="Вкл.", data-off-text="Выкл.")
                             td
                                 a(href="/cameras/" + monitor.id)
                                     button.btn.btn-success(type="button") Просмотр
@@ -35,4 +36,30 @@ block body
     script.
         $(document).ready(function () {
             $("[name='my-checkbox']").bootstrapSwitch();
+
         });
+
+    script.
+        $("[name='my-checkbox']").on('change.bootstrapSwitch', function (e) {
+            console.log(e.target.checked, e.target.id);
+            waitingDialog.show('Выполнение', {dialogSize: 'sm'});
+            $.ajax({
+                method: 'POST',
+                timeout: 15000,
+                url: '/cameras/changeState',
+                data: {
+                    'monitorId': e.target.id,
+                    'value': e.target.checked ? 1:0
+                },
+                dataType: 'json',
+                complete: function (data) {
+                    waitingDialog.hide();
+                    console.log(data.responseText);
+
+                }
+            });
+        });
+
+
+
+
