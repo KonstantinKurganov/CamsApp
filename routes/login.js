@@ -13,7 +13,12 @@ var request = require('request');
 
 /* GET logIn page. */
 router.get('/', function(req, res, next) {
-    res.render('login', {title: "Система видеонаблюдения" });
+    if(req.session.authHash){
+        res.redirect('/');
+    }else{
+        res.render('login', {title: "Система видеонаблюдения" });
+    }
+
 });
 
 router.post('/',function(req, res, next) {
@@ -21,6 +26,7 @@ router.post('/',function(req, res, next) {
     let username = req.body.username;
     let pass = req.body.password;
     let authHash ="";
+
 
 
     hashService.checkUser(username,pass)

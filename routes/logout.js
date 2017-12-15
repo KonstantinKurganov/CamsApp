@@ -7,8 +7,12 @@ var router = express.Router(),
 
 
 router.get('/', function (req, res) {
-    req.session =  null;
-    res.send("logout success!");
+
+    if(req.session.authHash){
+        req.session =  null;
+    }
+    res.redirect('/');
+
 });
 
 module.exports = router;

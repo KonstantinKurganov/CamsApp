@@ -103,7 +103,7 @@ function getAllMonitors (hash) {
    return sendApiReqGet(serverUrl+"api/monitors.json",hash)
 }
 function getAllEvents (hash) {
-    return sendApiReqGet(serverUrl+"/api/events.json",hash)
+    return sendApiReqGet(serverUrl+"api/events.json",hash)
 }
 function changeMonitorState (hash,monitorId,value) {
     return sendApiReqPost(serverUrl+`api/monitors/${monitorId}.json`,hash,value)

@@ -20,7 +20,7 @@ router.get('/', auth,function(req, res, next) {
 
 router.get('/:monitorId([0-9]*)/', auth,function(req, res, next) {
     let auth = req.session.authHash;
-    res.render('cameraFullMode', { title: 'Изображение с камеры' , monitorId: req.params.monitorId , hash: auth});
+    res.render('cameraFullMode', { title: 'Изображение с камеры' ,username: req.session.username, monitorId: req.params.monitorId , hash: auth});
 
 });
 

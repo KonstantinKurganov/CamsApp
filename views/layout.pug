@@ -65,7 +65,13 @@ html(lang="ru")
       nav.navbar.navbar-inverse.navbar-fixed-top
         .container-fluid
           .navbar-header
+            button.btn.btn-default.navbar-btn.pull-left.back(style ='background-color: #3330; border-color:#3330')
+              span.glyphicon.glyphicon-arrow-left(style ='color: #9d9d9d')
             button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+              span.sr-only Toggle navigation
+              span.icon-bar
+              span.icon-bar
+              span.icon-bar
             a.navbar-brand(href='/') Система видеонаблюдения
           #navbar.navbar-collapse.collapse
             ul.nav.navbar-nav.navbar-left
@@ -78,6 +84,12 @@ html(lang="ru")
               li
                   a(href="/logout")
                     button.btn.btn-primary.btn-xs(type="button") Выход
-
+      script.
+          $(document).ready(function () {
+              $('.back').click(function () {
+                  parent.history.back();
+                  return false;
+              });
+          });
     block body
 
