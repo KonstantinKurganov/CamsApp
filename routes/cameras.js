@@ -15,7 +15,7 @@ router.get('/', auth,function(req, res, next) {
     monitorService.getAllMonitorsView(auth)
         .then((monitors) => {
             res.render('cameras', { title: 'Список всех камер' , username: req.session.username, hash: auth, data: monitors });
-            })
+    })
 });
 
 router.get('/:monitorId([0-9]*)/', auth,function(req, res, next) {
@@ -47,6 +47,20 @@ router.post('/changeState', auth,function(req, res, next) {
             console.log(error);
         });
 
+});
+
+
+router.get('/alarm', auth,function(req, res, next) {
+    let auth = req.session.authHash;
+    var monitorId =  req.query.id;
+    var mode =  req.query.mode
+    monitorService.alarmMonitor(auth,monitorId,mode)
+        .then((result)=>{
+            res.send(result);
+        })
+        .catch( function (error){
+            console.log(error);
+        });
 });
 
 

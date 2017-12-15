@@ -17,8 +17,12 @@ function getAllMonitorsView (hash){
                         name: monitor.Monitor.Name,
                         function: translate(monitor.Monitor.Function),
                         enabled: monitor.Monitor.Enabled,
+                        alarm: false
                     };
+
                     monitors.push(monitorViewObj);
+
+
                 }
                 return monitors;
             }
@@ -33,6 +37,44 @@ function changeMonitorState(hash,monitorId,value){
             throw (new Error("error while updating monitor")) ;
         })
 }
+
+function alarmMonitor(hash,monitorId,mode){
+    return apiService.alarmMonitor(hash,monitorId,mode)
+        .then((result)=>{return result;}
+        ).catch(function (error){
+            throw (new Error("error while alarming monitor")) ;
+        })
+}
+
+// function checkMonitorForAlarm(monitorId,hash){
+//     apiService.alarmMonitor(hash,monitorId,"status")
+//         .then((result)=>{
+//             if (!result.includes('0')){
+//                 return true;
+//             }
+//             else {
+//                 return false;
+//             }
+//         });
+//
+// }
+//
+// function checkAlarm (monitors,hash){
+//     for(var monitor of monitors )
+//     {
+//         checkMonitorForAlarm(monitor.id,hash)
+//             .then((result )=>{
+//                 if(result)  {
+//                     monitor.alarn = false;
+//                 }
+//                 else {
+//                  monitor.alarn = true;
+//                  }
+//                  })
+//
+//     }
+//     return monitors;
+// }
 
 function translate (monitorState){
     switch (monitorState){
@@ -49,3 +91,5 @@ function translate (monitorState){
 
 module.exports.getAllMonitorsView = getAllMonitorsView;
 module.exports.changeMonitorState = changeMonitorState;
+module.exports.alarmMonitor = alarmMonitor;
+//module.exports.checkAlarm = checkAlarm;

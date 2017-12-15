@@ -1,11 +1,15 @@
 extends layout
 append scripts
-    script(src='/js/bootstrap-switch.js')
     script(src='/js/bootstrap-waitingfor.js')
+    script(src='/js/bootstrap-switch.js')
+
+
 append styles
     link(rel='stylesheet', href='/css/bootstrap-switch.css')
 
 block body
+    script.
+        waitingDialog.show('Загрузка...', {dialogSize: 'sm'});
     .container
         h1= title
 
@@ -16,15 +20,18 @@ block body
                         td Название
                         td Режим
                         td Состояние
+                        td Тревога
                         td Изображение
 
                 tbody
                     for monitor in data
-                        tr
+                        tr(id = "row"+monitor.id, name="tableRow")
                             td=monitor.name
                             td=monitor.function
                             td
                                 input(type='checkbox', name="my-checkbox", id = monitor.id, checked  = monitor.enabled != 0, data-on-text="Вкл.", data-off-text="Выкл.")
+                            td
+                                input(type='checkbox', name="alarm-checkbox", id = "alarm"+monitor.id, data-on-text="Вкл.", data-off-text="Выкл.")
                             td
                                 a(href="/cameras/" + monitor.id)
                                     button.btn.btn-success(type="button") Просмотр
@@ -33,16 +40,78 @@ block body
             button.btn.btn-info(type="button") Просмотр всех камер
 
 
+
     script.
         $(document).ready(function () {
-            $("[name='my-checkbox']").bootstrapSwitch();
+            $("[name='my-checkbox']").bootstrapSwitch().each(function (index) {
+
+                    if( this.checked){
+                        $("#alarm"+$(this).attr('id')).bootstrapSwitch({onColor: 'danger'});
+                    }else{
+                        $("#alarm"+$(this).attr('id')).bootstrapSwitch({onColor: 'danger',disabled:true});
+                    }
+                });
+
+
+
+
+
+            $("[name='tableRow']").each(function (index) {
+                var id = $(this).attr('id').substr(3);
+                $.ajax({
+                    method: 'GET',
+                    timeout: 15000,
+                    url: '/cameras/alarm?id=' + id + "&mode=status",
+                    complete: function (data) {
+                        console.log(data.responseText);
+                        if(!data.responseText.includes('0')){
+                            $("#row"+id).addClass("danger");
+                            $("#alarm"+id).bootstrapSwitch('state', true);
+
+                        }waitingDialog.hide();
+                    }
+                });
+
+            });
 
         });
 
     script.
+        $("[name='alarm-checkbox']").on('change.bootstrapSwitch', function (e) {
+
+            var id = e.target.id.substr(5);
+            var rawId = "#row"+ id;
+            var mode = "";
+            if (e.target.checked){
+                mode = "on";
+                $(rawId).addClass("danger");
+            }
+            else {
+                mode = "off";
+                $(rawId).removeClass("danger");
+            }
+            $.ajax({
+                method: 'GET',
+                timeout: 15000,
+                url: '/cameras/alarm?id='+id+"&mode="+mode,
+                complete: function (data) {
+                    console.log(data.responseText);
+
+                }
+            });
+
+
+
+        });
+
+
+    script.
         $("[name='my-checkbox']").on('change.bootstrapSwitch', function (e) {
             console.log(e.target.checked, e.target.id);
-            waitingDialog.show('Выполнение', {dialogSize: 'sm'});
+
+            var checked =e.target.checked;
+            var id = e.target.id;
+            waitingDialog.show('Выполнение...', {dialogSize: 'sm'});
             $.ajax({
                 method: 'POST',
                 timeout: 15000,
@@ -53,8 +122,16 @@ block body
                 },
                 dataType: 'json',
                 complete: function (data) {
+
+                    if (!checked){
+                        $("#alarm"+id).bootstrapSwitch('toggleDisabled');
+                    }
+                    else{
+                        $("#alarm"+id).bootstrapSwitch('toggleDisabled');
+                    }
                     waitingDialog.hide();
                     console.log(data.responseText);
+
 
                 }
             });

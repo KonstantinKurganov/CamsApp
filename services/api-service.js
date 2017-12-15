@@ -109,6 +109,27 @@ function changeMonitorState (hash,monitorId,value) {
     return sendApiReqPost(serverUrl+`api/monitors/${monitorId}.json`,hash,value)
 }
 
+function alarmMonitor (hash,monitorId,mode) {
+
+    switch (mode) {
+        case 'on':
+            return  sendApiReqGet(serverUrl+`api/monitors/alarm/id:${monitorId}/command:on.json`,hash);
+            break;
+        case 'off':
+            return sendApiReqGet(serverUrl+`api/monitors/alarm/id:${monitorId}/command:off.json`,hash);
+            break;
+        case 'status':
+            return sendApiReqGet(serverUrl+`api/monitors/alarm/id:${monitorId}/command:status.json`,hash);
+            break;
+
+        default:
+            return "wrong method";
+            break;
+    }
+
+}
+
 module.exports.getAllMonitors = getAllMonitors;
 module.exports.getAllEvents = getAllEvents;
 module.exports.changeMonitorState = changeMonitorState;
+module.exports.alarmMonitor = alarmMonitor;
