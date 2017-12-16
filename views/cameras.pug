@@ -12,6 +12,10 @@ block body
         waitingDialog.show('Загрузка...', {dialogSize: 'sm'});
     .container
         h1= title
+        div.btn-group.btn-group-justified
+            a.btn.btn-info(href="/cameras/montage") Просмотр всех камер
+            a.btn.btn-warning(href="#") Выключить все камеры
+            a.btn.btn-danger(href="#") Тревога на всех камерах
 
         table-responsive
             table.table.table-striped
@@ -33,11 +37,12 @@ block body
                             td
                                 input(type='checkbox', name="alarm-checkbox", id = "alarm"+monitor.id, data-on-text="Вкл.", data-off-text="Выкл.")
                             td
-                                a(href="/cameras/" + monitor.id)
-                                    button.btn.btn-success(type="button") Просмотр
+                                button.btn.btn-success(type="button",name="btnVideo" id = "btn"+monitor.id) Просмотр
+                        tr(id ="video"+ monitor.id, hidden = true)
+                            td(colspan="5")
+                                img.col-md-12#Monitor1(src=`http://195.133.1.227/zm/cgi-bin/nph-zms?mode=jpeg&monitor=${monitor.id}&scale=100&maxfps=20&auth=${hash}` alt="camera")
 
-        a(href="/cameras/montage")
-            button.btn.btn-info(type="button") Просмотр всех камер
+
 
 
 
@@ -74,6 +79,12 @@ block body
 
             });
 
+        });
+
+    script.
+        $("[name='btnVideo']").click(function (index) {
+            var id = $(this).attr('id').substr(3);
+            $("#video"+id).toggle(1000);
         });
 
     script.
