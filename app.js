@@ -22,7 +22,7 @@ app.use(session({
     name: 'session',
     keys: ['key1'],
     // Cookie Options
-    maxAge: 2 * 60 * 60 * 1000 // 2 hours
+    maxAge:  60 * 60 * 1000 // 2 hours
 }));
 
 app.use('/img',express.static(path.join(__dirname, 'public/images')));

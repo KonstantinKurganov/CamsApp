@@ -20,7 +20,9 @@ router.get('/', auth,function(req, res, next) {
 
 router.get('/:monitorId([0-9]*)/', auth,function(req, res, next) {
     let auth = req.session.authHash;
-    res.render('cameraFullMode', { title: 'Изображение с камеры' ,username: req.session.username, monitorId: req.params.monitorId , hash: auth});
+    var id = req.params.monitorId;
+    //res.render('cameraFullMode', { title: 'Изображение с камеры' ,username: req.session.username, monitorId: req.params.monitorId , hash: auth});
+    res.send(`<img class="col-md-12 camVideo" style = "width:  100%; margin: 0 auto;" id="Monitor${id}" src="http://195.133.1.227/zm/cgi-bin/nph-zms?mode=jpeg&monitor=${id}&scale=100&maxfps=20&auth=${auth}"  alt="camera">`);
 
 });
 
@@ -50,6 +52,7 @@ router.post('/changeState', auth,function(req, res, next) {
 });
 
 
+
 router.get('/alarm', auth,function(req, res, next) {
     let auth = req.session.authHash;
     var monitorId =  req.query.id;
@@ -62,6 +65,7 @@ router.get('/alarm', auth,function(req, res, next) {
             console.log(error);
         });
 });
+
 
 
 module.exports = router;

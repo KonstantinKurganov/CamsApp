@@ -14,11 +14,11 @@ block body
         h1= title
         div.btn-group.btn-group-justified
             a.btn.btn-info(href="/cameras/montage") Просмотр всех камер
-            a.btn.btn-warning(href="#") Выключить все камеры
-            a.btn.btn-danger(href="#") Тревога на всех камерах
+            a.btn.btn-warning(id = 'camerasSwitchButton') Переключить все камеры
+            a.btn.btn-danger(id = 'camerasAlarmButton') Тревога на всех камерах
 
         table-responsive
-            table.table.table-striped
+            table.table
                 thead
                     tr
                         td Название
@@ -39,21 +39,17 @@ block body
                             td
                                 button.btn.btn-success(type="button",name="btnVideo" id = "btn"+monitor.id) Просмотр
                         tr(id ="video"+ monitor.id, hidden = true)
-                            td(colspan="5")
-                                img.col-md-12#Monitor1(src=`http://195.133.1.227/zm/cgi-bin/nph-zms?mode=jpeg&monitor=${monitor.id}&scale=100&maxfps=20&auth=${hash}` alt="camera")
-
-
-
+                            td(colspan="5", id = "videoTd"+ monitor.id)
 
 
     script.
         $(document).ready(function () {
-            $("[name='my-checkbox']").bootstrapSwitch().each(function (index) {
+            $("[name='my-checkbox']").bootstrapSwitch({animate:false}).each(function (index) {
 
                     if( this.checked){
-                        $("#alarm"+$(this).attr('id')).bootstrapSwitch({onColor: 'danger'});
+                        $("#alarm"+$(this).attr('id')).bootstrapSwitch({onColor: 'danger',animate:false});
                     }else{
-                        $("#alarm"+$(this).attr('id')).bootstrapSwitch({onColor: 'danger',disabled:true});
+                        $("#alarm"+$(this).attr('id')).bootstrapSwitch({onColor: 'danger',disabled:true,animate:false});
                     }
                 });
 
@@ -84,7 +80,31 @@ block body
     script.
         $("[name='btnVideo']").click(function (index) {
             var id = $(this).attr('id').substr(3);
-            $("#video"+id).toggle(1000);
+            if($("#videoTd"+id +" .camVideo").length){
+                $("#video" + id).toggle(1000);
+                $("#videoTd" + id).empty();
+
+            }
+            else{
+                $.ajax({
+                    method: 'GET',
+                    timeout: 15000,
+                    url: '/cameras/' + id,
+
+                    complete: function (data) {
+
+                        $("#videoTd" + id).append(data.responseText);
+                        $("#video" + id).toggle(1000);
+
+                    }
+                });
+
+            }
+
+
+
+
+
         });
 
     script.
@@ -125,7 +145,7 @@ block body
             waitingDialog.show('Выполнение...', {dialogSize: 'sm'});
             $.ajax({
                 method: 'POST',
-                timeout: 15000,
+                timeout: 150000,
                 url: '/cameras/changeState',
                 data: {
                     'monitorId': e.target.id,
@@ -146,8 +166,25 @@ block body
 
                 }
             });
+            waitingDialog.hide();
         });
 
+    script.
+        $('#camerasSwitchButton').click(function () {
+            alert("Внимание! Функция в разработке, возможно неправильное поведение")
+            $("[name='my-checkbox']").each(function (index) {
+                $(this).click();
+            })
+            setTimeout(location.reload(),7000)
+        })
+
+    script.
+        $('#camerasAlarmButton').click(function () {
+            alert("Внимание! Функция в разработке, возможно неправильное поведение")
+            $("[name='alarm-checkbox']").each(function (index) {
+                $(this).click();
+            })
+        })
 
 
 
