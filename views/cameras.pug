@@ -13,16 +13,22 @@ block body
     .container
         h1= title
         div.btn-group.btn-group-justified
-            a.btn.btn-info(href="/cameras/montage") Просмотр всех камер
-            a.btn.btn-warning(id = 'camerasSwitchButton') Переключить все камеры
-            a.btn.btn-danger(id = 'camerasAlarmButton') Тревога на всех камерах
+            a.btn.btn-info(href="/cameras/montage")
+                span Выключить все
+                span.button-text  камеры
+            a.btn.btn-warning(id = 'camerasSwitchButton')
+                span Переключить все
+                span.button-text  камеры
+            a.btn.btn-danger(id = 'camerasAlarmButton')
+                span Тревога на всех
+                span.button-text  камерах
 
-        table-responsive
+        div.table-responsive
             table.table
                 thead
                     tr
                         td Название
-                        td Режим
+
                         td Состояние
                         td Тревога
                         td Изображение
@@ -31,7 +37,7 @@ block body
                     for monitor in data
                         tr(id = "row"+monitor.id, name="tableRow")
                             td=monitor.name
-                            td=monitor.function
+
                             td
                                 input(type='checkbox', name="my-checkbox", id = monitor.id, checked  = monitor.enabled != 0, data-on-text="Вкл.", data-off-text="Выкл.")
                             td
@@ -39,7 +45,7 @@ block body
                             td
                                 button.btn.btn-success(type="button",name="btnVideo" id = "btn"+monitor.id) Просмотр
                         tr(id ="video"+ monitor.id, hidden = true)
-                            td(colspan="5", id = "videoTd"+ monitor.id)
+                            td(colspan="4", id = "videoTd"+ monitor.id)
 
 
     script.
