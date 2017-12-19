@@ -9,14 +9,14 @@ block body
                         td Название
                         td Причина
                         td Начало
-                        td Продолжительность
+                        td Длинна
                         td Видеозапись
                 tbody
                     for event in data.events
                         tr
                             td=event.Event.Name
                             td=event.Event.Cause
-                            td=event.Event.StartTime
+                            td=event.Event.StartTime+'сек.'
                             td=event.Event.Length
                             td
                                 a(href=event.Event.diskUrl)
