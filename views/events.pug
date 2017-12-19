@@ -16,8 +16,8 @@ block body
                         tr
                             td=event.Event.Name
                             td=event.Event.Cause
-                            td=event.Event.StartTime+'сек.'
-                            td=event.Event.Length
+                            td=event.Event.StartTime
+                            td=event.Event.Length+' сек.'
                             td
                                 a(href=event.Event.diskUrl)
                                     button.btn.btn-info(type="button") Просмотр
