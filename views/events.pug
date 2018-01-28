@@ -2,6 +2,15 @@ extends layout
 block body
     .container
         h1= title
+        div.btn-group.btn-group-justified
+            a.btn.btn-success(id = "dayBtn")
+                span День
+            a.btn.btn-success(id = "weekBtn")
+                span Неделя
+            a.btn.btn-success(id = "monthBtn")
+                span Месяц
+            a.btn.btn-success(id = "allBtn")
+                span Все события
         table-responsive
             table.table.table-striped
                 thead
@@ -13,7 +22,7 @@ block body
                         td Видеозапись
                 tbody
                     for event in data.events
-                        tr
+                        tr(name="tableRow")
                             td=event.Event.Name
                             td=event.Event.Cause
                             td=event.Event.StartTime
@@ -21,6 +30,51 @@ block body
                             td
                                 a(href=event.Event.diskUrl, target="_blank")
                                     button.btn.btn-info(type="button") Просмотр
+
+        script.
+            Date.prototype.getWeek = function () {
+                var onejan = new Date(this.getFullYear(), 0, 1);
+                return Math.ceil((((this - onejan) / 86400000) + onejan.getDay() + 1) / 7);
+            };
+
+            $("#dayBtn").click(function () {
+                checkTable("getDate");
+            });
+            $("#weekBtn").click(function () {
+                checkTable("getWeek");
+            });
+            $("#monthBtn").click(function () {
+                checkTable("getMonth")
+            });
+            $("#allBtn").click(function () {
+                $("[name='tableRow']").each(function (index) {
+
+                    $(this).show();
+                });
+            });
+
+
+
+            function checkTable(func){
+                $("[name='tableRow']").each(function (index) {
+                    var row = $(this);
+                    var date = row.find("td").eq(2).text();
+                    isShown(date, func) ?
+                        row.show() : row.hide();
+                })
+            }
+
+            function isShown(date,timeCondFun){
+                var rowDate = new Date(date);
+                var curDate = new Date();
+                if(rowDate[timeCondFun]() === curDate[timeCondFun]())
+                    return true;
+                else
+                    return false;
+
+            }
+
+
 
 
 
