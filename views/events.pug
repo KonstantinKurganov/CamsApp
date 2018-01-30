@@ -22,14 +22,16 @@ block body
                         td Видеозапись
                 tbody
                     for event in data.events
-                        tr(name="tableRow")
-                            td=event.Event.Name
-                            td=event.Event.Cause
-                            td=event.Event.StartTime
-                            td=event.Event.Length+' сек.'
-                            td
-                                a(href=event.Event.diskUrl, target="_blank")
-                                    button.btn.btn-info(type="button") Просмотр
+                        if event.Event.diskUrl
+                            tr(name="tableRow")
+                                td=event.Event.Name
+                                td=event.Event.Cause
+                                td=event.Event.StartTime
+                                td=event.Event.Length + ' сек.'
+                                td
+                                    a(href=event.Event.diskUrl, target="_blank")
+                                        button.btn.btn-info(type="button") Просмотр
+
 
         script.
             Date.prototype.getWeek = function () {
